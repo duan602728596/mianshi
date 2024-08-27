@@ -39,9 +39,9 @@ import { deepStrictEqual } from 'node:assert/strict';
  * @return { void } Do not return anything, modify nums1 in-place instead.
  */
 function merge(nums1, m, nums2, n) {
+  const nums1Length = m + n;
   let i = 0;
   let j = 0;
-  let nums1Length = m + n;
   let k = m;
 
   while (i < nums1Length && j < n) {
