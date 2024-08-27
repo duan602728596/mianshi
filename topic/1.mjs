@@ -59,7 +59,7 @@ function merge(nums1, m, nums2, n) {
   }
 }
 
-test('1', function() {
+test('Case 1', function() {
   const a1 = [1, 2, 3, 0, 0, 0];
   const a2 = [2, 5, 6];
 
@@ -67,7 +67,7 @@ test('1', function() {
   deepStrictEqual(a1, [1, 2, 2, 3, 5, 6]);
 });
 
-test('2', function() {
+test('Case 2', function() {
   const a1 = [1];
   const a2 = [];
 
@@ -75,7 +75,7 @@ test('2', function() {
   deepStrictEqual(a1, [1]);
 });
 
-test('3', function() {
+test('Case 3', function() {
   const a1 = [0];
   const a2 = [1];
 
@@ -83,7 +83,7 @@ test('3', function() {
   deepStrictEqual(a1, [1]);
 });
 
-test('4', function() {
+test('Case 4', function() {
   const a1 = [-1, 0, 0, 3, 3, 3, 0, 0, 0];
   const a2 = [1, 2, 2];
 
