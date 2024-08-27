@@ -41,18 +41,20 @@ import { deepStrictEqual } from 'node:assert/strict';
 function merge(nums1, m, nums2, n) {
   let i = 0;
   let j = 0;
-  let k = m + n;
+  let nums1Length = m + n;
+  let k = m;
 
-  while (i < k && j < n) {
+  while (i < nums1Length && j < n) {
     const num1Item = nums1[i];
     const num2Item = nums2[j];
 
-    if (num2Item >= num1Item && num1Item !== 0) {
+    if (num2Item >= num1Item && i < k) {
       i++;
     } else {
       nums1.splice(i, 0, num2Item);
       nums1.pop();
       j++;
+      k++;
     }
   }
 }
@@ -79,4 +81,12 @@ test('3', function() {
 
   merge(a1, 0, a2, 1);
   deepStrictEqual(a1, [1]);
+});
+
+test('4', function() {
+  const a1 = [-1, 0, 0, 3, 3, 3, 0, 0, 0];
+  const a2 = [1, 2, 2];
+
+  merge(a1, 6, a2, 3);
+  deepStrictEqual(a1, [-1, 0, 0, 1, 2, 2, 3, 3, 3]);
 });
