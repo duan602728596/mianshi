@@ -1,0 +1,27 @@
+{
+  "name": "mianshi",
+  "scripts": {
+    "eslint": "eslint ./ --fix --cache --cache-location .eslintcache",
+    "eslint:no-fix": "eslint ./ --cache --cache-location .eslintcache",
+    "postinstall": "husky install"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.23.3",
+    "@sweet-milktea/babel-preset-sweet": "^4.4.0",
+    "commitizen": "^4.3.0",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.7.0",
+    "globals": "^15.8.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,mjs,cjs}": "eslint --cache --cache-location .eslintcache --no-warn-ignored"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}

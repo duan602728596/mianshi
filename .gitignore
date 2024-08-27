@@ -16,20 +16,5 @@ yarn-error.log
 # webstorm
 .idea
 .DS_Store
-package.json.lerna_backup
 
-.sweet
-lib
-.lib.mid
-www
-build
-!packages/help/build
-dist
-packages/test/ffmpeg
-packages/test/.configscache
-node-nim-cache0
 .eslintcache
-
-docker/*.zip
-docker/48tools-**/*
-docker/48tools/**/*
