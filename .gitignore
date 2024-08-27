@@ -1,0 +1,35 @@
+# node
+node_modules
+npm-debug.log
+package-lock.json
+pnpm-lock.yaml
+
+# yarn
+yarn.lock
+yarn-error.log
+.yarnrc
+.yarn/*
+!.yarn/releases
+.pnp.js
+.pnp.cjs
+
+# webstorm
+.idea
+.DS_Store
+package.json.lerna_backup
+
+.sweet
+lib
+.lib.mid
+www
+build
+!packages/help/build
+dist
+packages/test/ffmpeg
+packages/test/.configscache
+node-nim-cache0
+.eslintcache
+
+docker/*.zip
+docker/48tools-**/*
+docker/48tools/**/*
