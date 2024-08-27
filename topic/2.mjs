@@ -14,21 +14,35 @@ import { deepStrictEqual } from 'node:assert/strict';
  * @return { number }
  */
 function removeElement(nums, val) {
-  let end = nums.length - 1;
   let i = 0;
+  let j = nums.length - 1;
   let k = 0;
 
-  while (i <= end) {
+  while (i < j) {
     const item = nums[i];
 
     if (item === val) {
-      nums.splice(i, 1);
-      nums.push('_');
-      end--;
-      k++;
+      // 从尾部找到不同的值并交换
+      while (i < j) {
+        if (nums[j] !== val) {
+          [nums[i], nums[j]] = [nums[j], nums[i]];
+          k++;
+          j--;
+          break;
+        } else {
+          j--;
+        }
+      }
     } else {
-      i++;
+      k++;
     }
+
+    i++;
+  }
+
+  // 指针相同后需要判断一次
+  if (nums[i] !== val) {
+    k++;
   }
 
   return k;
@@ -38,7 +52,7 @@ test('Case 1', function() {
   const a1 = [3, 2, 2, 3];
   const k = removeElement(a1, 3);
 
-  deepStrictEqual(a1, [2, 2, '_', '_']);
+  deepStrictEqual(a1, [2, 2, 3, 3]);
   deepStrictEqual(k, 2);
 });
 
@@ -46,6 +60,6 @@ test('Case 2', function() {
   const a1 = [0, 1, 2, 2, 3, 0, 4, 2];
   const k = removeElement(a1, 2);
 
-  deepStrictEqual(a1, [0, 1, 3, 0, 4, '_', '_', '_']);
-  deepStrictEqual(k, 3);
+  deepStrictEqual(a1, [0, 1, 4, 0, 3, 2, 2, 2]);
+  deepStrictEqual(k, 5);
 });
