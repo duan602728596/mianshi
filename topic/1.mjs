@@ -39,22 +39,22 @@ import { deepStrictEqual } from 'node:assert/strict';
  * @return { void } Do not return anything, modify nums1 in-place instead.
  */
 function merge(nums1, m, nums2, n) {
-    let i = 0;
-    let j = 0;
-    let k = m + n;
+  let i = 0;
+  let j = 0;
+  let k = m + n;
 
-    while (i < k && j < n) {
-        const num1Item = nums1[i];
-        const num2Item = nums2[j];
+  while (i < k && j < n) {
+    const num1Item = nums1[i];
+    const num2Item = nums2[j];
 
-        if (num2Item >= num1Item && num1Item !== 0) {
-            i++;
-        } else {
-            nums1.splice(i, 0, num2Item);
-            nums1.pop();
-            j++;
-        }
+    if (num2Item >= num1Item && num1Item !== 0) {
+      i++;
+    } else {
+      nums1.splice(i, 0, num2Item);
+      nums1.pop();
+      j++;
     }
+  }
 }
 
 test('1', function() {
