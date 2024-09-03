@@ -1,22 +1,14 @@
 import test from 'node:test';
 import { deepStrictEqual } from 'node:assert/strict';
+import { createBinaryTreeNode as h } from '../struct/BinaryTreeNode.mjs';
 
 /**
  * 给定一个二叉树 root ，返回其最大深度。
  * 二叉树的 最大深度 是指从根节点到最远叶子节点的最长路径上的节点数。
  */
 
-/* Definition for a binary tree node. */
-class TreeNode {
-  constructor(val = 0, left = null, right = null) {
-    this.val = val;
-    this.left = left;
-    this.right = right;
-  }
-}
-
 /**
- * @param { TreeNode } root
+ * @param { BinaryTreeNode } root
  * @return { number }
  */
 function maxDepth(root) {
@@ -33,11 +25,11 @@ function maxDepth(root) {
 }
 
 test('Case 1', function() {
-  const tree = new TreeNode(3,
-    new TreeNode(9),
-    new TreeNode(20,
-      new TreeNode(15),
-      new TreeNode(7)
+  const tree = h(3,
+    h(9),
+    h(20,
+      h(15),
+      h(7)
     )
   );
   const len = maxDepth(tree);
@@ -46,9 +38,9 @@ test('Case 1', function() {
 });
 
 test('Case 2', function() {
-  const tree = new TreeNode(1,
+  const tree = h(1,
     null,
-    new TreeNode(2)
+    h(2)
   );
   const len = maxDepth(tree);
 
