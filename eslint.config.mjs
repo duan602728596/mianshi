@@ -1,5 +1,9 @@
+import process from 'node:process';
 import babelEslintParser from '@babel/eslint-parser';
+import eslintPluginImport from 'eslint-plugin-import';
 import globals from 'globals';
+
+const commitLint = process.env.COMMITLINT === '1';
 
 const ignores = [
   'node_modules/**',
@@ -24,6 +28,10 @@ const languageGlobalsOptions = {
   NodeJS: 'readonly',
   NodeRequire: 'readonly',
   ...globalsSettings(['browser', 'chai', 'commonjs', 'es5', 'mocha', 'node', 'nodeBuiltin', 'worker'])
+};
+
+const plugins = {
+  import: eslintPluginImport
 };
 
 const eslintRules = {
@@ -166,7 +174,12 @@ const eslintRules = {
   'prefer-const': 'error',                       // 要求使用 const 声明那些声明后不再被修改的变量
   'object-shorthand': 'error',                   // 要求或禁止对象字面量中方法和属性使用简写语法
   'require-yield': 'error',                      // 要求 generator 函数内有 yield
-  'template-curly-spacing': ['error', 'always']  // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
+  'template-curly-spacing': ['error', 'always'], // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
+  // import
+  'import/no-unresolved': [ // 确保导入的模块可以解析为本地文件系统上的模块
+    commitLint ? 'error' : 'off',
+    { commonjs: true }
+  ]
 };
 
 export default [
@@ -187,6 +200,7 @@ export default [
       },
       globals: languageGlobalsOptions
     },
+    plugins,
     rules: eslintRules
   }
 ];
