@@ -1,5 +1,7 @@
 import test from 'node:test';
 import { deepStrictEqual } from 'node:assert/strict';
+import { setTimeout } from 'node:timers';
+import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 
 /* 实现自定义的Promise */
 class CustomPromise {
@@ -8,29 +10,39 @@ class CustomPromise {
   static Rejected = 'rejected';
 
   static resolve(v) {
-    return new Promise((resolve) => resolve(v));
+    return new CustomPromise((resolve) => resolve(v));
   }
 
   static reject(v) {
-    return new Promise((resolve, reject) => reject(v));
+    return new CustomPromise((resolve, reject) => reject(v));
   }
 
   static all(tasks) {
+    let endTasks = 0;
+    let nextPromiseResolve;
+    const promise = new CustomPromise((resolve) => nextPromiseResolve = resolve);
     const result = [];
 
     for (let i = 0; i < tasks.length; i++) {
       tasks[i].then((r) => {
-        result.push(r);
+        result[i] = r;
+        endTasks++;
+
+        if (endTasks === tasks.length) {
+          nextPromiseResolve(result);
+        }
 
         return r;
       });
     }
 
-    return new Promise((resolve) => resolve(result));
+    return promise;
   }
 
   PromiseState = CustomPromise.Pending; // promise状态
   PromiseResult = undefined; // promise结果
+  #nextPromiseResolve = undefined;
+  #nextPromiseOptions = undefined;
 
   constructor(executor) {
     try {
@@ -40,56 +52,86 @@ class CustomPromise {
     }
   }
 
-  #returnNewPromise(result) {
-    return new CustomPromise((resolve) => resolve(result));
-  }
-
   resolve = (v) => {
     this.PromiseState = CustomPromise.Fulfilled;
     this.PromiseResult = v;
+    this.#nextPromiseCallback();
   };
 
   reject = (v) => {
     this.PromiseState = CustomPromise.Rejected;
     this.PromiseResult = v;
+    this.#nextPromiseCallback();
   };
 
-  #then(options) {
-    const { onFulfilled, onRejected } = options;
-    let res = undefined;
+  #nextPromiseCallback() {
+    if (this.#nextPromiseOptions) {
+      const { onFulfilled, onRejected } = this.#nextPromiseOptions;
+      let res = undefined;
 
-    if (this.PromiseState === CustomPromise.Fulfilled && onFulfilled) {
-      res = onFulfilled(this.PromiseResult);
-    } else if (this.PromiseState === CustomPromise.Rejected && onRejected) {
-      res = onRejected(this.PromiseResult);
+      if (this.PromiseState === CustomPromise.Fulfilled && onFulfilled) {
+        res = onFulfilled(this.PromiseResult);
+      } else if (this.PromiseState === CustomPromise.Rejected && onRejected) {
+        res = onRejected(this.PromiseResult);
+      }
+
+      this.#nextPromiseResolve('result' in this.#nextPromiseOptions ? this.#nextPromiseOptions.result : res);
+    }
+  }
+
+  #then() {
+    const promise = new CustomPromise((resolve) => {
+      this.#nextPromiseResolve = resolve;
+    });
+
+    if (this.PromiseState !== CustomPromise.Pending) {
+      this.#nextPromiseCallback();
     }
 
-    return this.#returnNewPromise('result' in options ? options.result : res);
+    return promise;
   }
 
   then = (onFulfilled, onRejected) => {
-    return this.#then({ onFulfilled, onRejected });
+    this.#nextPromiseOptions = { onFulfilled, onRejected };
+
+    return this.#then();
   };
 
   catch = (onRejected) => {
-    return this.#then({ onRejected });
+    this.#nextPromiseOptions = { onRejected };
+
+    return this.#then();
   };
 
   finally = (onFinally) => {
-    return this.#then({
+    this.#nextPromiseOptions = {
       onFulfilled: onFinally,
       onRejected: onFinally,
       result: this.PromiseResult
-    });
+    };
+
+    return this.#then();
   };
 }
 
-test('Case 1', async function() {
-  const promise = await new CustomPromise((resolve, reject) => {
-    resolve(1);
+test.describe('Case 1: Promise resolve', function() {
+  test('sync', async function() {
+    const promise = await new CustomPromise((resolve, reject) => {
+      resolve(1);
+    });
+
+    deepStrictEqual(promise, 1);
   });
 
-  deepStrictEqual(promise, 1);
+  test('async', async function() {
+    const promise = await new CustomPromise(async (resolve, reject) => {
+      const r = await setTimeoutPromise(3_000, 1);
+
+      resolve(r);
+    });
+
+    deepStrictEqual(promise, 1);
+  });
 });
 
 test('Case 2', async function() {
@@ -171,12 +213,24 @@ test('Case 8: Promise.reject', async function() {
   deepStrictEqual(errResult, 8);
 });
 
-test('Case 9: Promise.all', async function() {
-  const promises = await CustomPromise.all([
-    new CustomPromise((resolve) => resolve(31)),
-    new CustomPromise((resolve) => resolve(32)),
-    new CustomPromise((resolve) => resolve(33))
-  ]);
+test.describe('Case 9: Promise.all', function() {
+  test('sync', async function() {
+    const promises = await CustomPromise.all([
+      new CustomPromise((resolve) => resolve(31)),
+      new CustomPromise((resolve) => resolve(32)),
+      new CustomPromise((resolve) => resolve(33))
+    ]);
 
-  deepStrictEqual(promises, [31, 32, 33]);
+    deepStrictEqual(promises, [31, 32, 33]);
+  });
+
+  test('async', async function() {
+    const promises = await CustomPromise.all([
+      new CustomPromise((resolve) => setTimeout(() => resolve(34), 2_000)),
+      new CustomPromise((resolve) => setTimeout(() => resolve(35), 3_000)),
+      new CustomPromise((resolve) => setTimeout(() => resolve(36), 1_000))
+    ]);
+
+    deepStrictEqual(promises, [34, 35, 36]);
+  });
 });
