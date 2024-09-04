@@ -1,6 +1,6 @@
 import test from 'node:test';
 import { deepStrictEqual } from 'node:assert/strict';
-import { createBinaryTreeNode as h } from '../struct/BinaryTreeNode.mjs';
+import { createBinaryTreeNode as h } from '../../struct/BinaryTreeNode.mjs';
 
 /**
  * 给定一个二叉树 root ，返回其最大深度。
