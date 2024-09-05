@@ -83,23 +83,86 @@ function trap(height) {
   return all;
 }
 
-test('Case 1', function() {
+/**
+ * 最佳参考答案：
+ * class Solution {
+ *     public int trap(int[] height) {
+ *         int left = 0, right = height.length - 1;
+ *         int maxL = height[left], maxR = height[right];
+ *         int res = 0;
+ *         while (left < right) {
+ *             maxL = Math.max(maxL, height[left]);
+ *             maxR = Math.max(maxR, height[right]);
+ *             res += maxR > maxL ? maxL - height[left++] : maxR - height[right--];
+ *         }
+ *         return res;
+ *     }
+ * }
+ *
+ * @param { Array<number> } height
+ * @return { number }
+ */
+function trap2(height) {
+  let i = 0,
+    j = height.length - 1,
+    leftMax = height[i],
+    rightMax = height[j],
+    result = 0;
+
+  while (i < j) {
+    leftMax = Math.max(leftMax, height[i]);
+    rightMax = Math.max(rightMax, height[j]);
+
+    if (leftMax <= rightMax) {
+      result += leftMax - height[i];
+      i++;
+    } else {
+      result += rightMax - height[j];
+      j--;
+    }
+  }
+
+  return result;
+}
+
+test('Case 1: trap', function() {
   const a1 = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1];
   const result = trap(a1);
 
   deepStrictEqual(result, 6);
 });
 
-test('Case 2', function() {
+test('Case 2: trap', function() {
   const a1 = [4, 2, 0, 3, 2, 5];
   const result = trap(a1);
 
   deepStrictEqual(result, 9);
 });
 
-test('Case 3', function() {
+test('Case 3: trap', function() {
   const a1 = [4, 3, 3, 9, 3, 0, 9, 2, 8, 3];
   const result = trap(a1);
+
+  deepStrictEqual(result, 23);
+});
+
+test('Case 4: trap2', function() {
+  const a1 = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1];
+  const result = trap2(a1);
+
+  deepStrictEqual(result, 6);
+});
+
+test('Case 5: trap2', function() {
+  const a1 = [4, 2, 0, 3, 2, 5];
+  const result = trap2(a1);
+
+  deepStrictEqual(result, 9);
+});
+
+test('Case 6: trap2', function() {
+  const a1 = [4, 3, 3, 9, 3, 0, 9, 2, 8, 3];
+  const result = trap2(a1);
 
   deepStrictEqual(result, 23);
 });
