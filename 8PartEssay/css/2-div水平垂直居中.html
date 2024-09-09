@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>div水平垂直居中</title>
+  <style>
+    .father { margin-bottom: 30px; width: 200px; height: 200px; }
+    .children { width: 100px; height: 100px; }
+    .father, .children { border: 1px solid #000; }
+  </style>
+</head>
+<body>
+<!-- 方法一：flex -->
+<style>
+  .flex { display: flex; align-items: center; justify-content: center; }
+</style>
+<div class="father flex">
+  <div class="children"></div>
+</div>
+
+<!-- 方法二：align-content -->
+<style>
+  .alignContent { align-content: center; }
+  .mxAuto { margin: 0 auto; }
+</style>
+<div class="father alignContent">
+  <div class="children mxAuto"></div>
+</div>
+
+</body>
+</html>
