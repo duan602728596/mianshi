@@ -2,7 +2,7 @@
  * 二叉树
  * Definition for a binary tree node.
  */
-export class BinaryTreeNode {
+export class TreeNode {
   constructor(val = 0, left = null, right = null) {
     this.val = val;
     this.left = left;
@@ -12,8 +12,8 @@ export class BinaryTreeNode {
 
 /**
  * 创建二叉树
- * @return { BinaryTreeNode }
+ * @return { TreeNode }
  */
-export function createBinaryTreeNode() {
-  return new BinaryTreeNode(...arguments);
+export function createTreeNode() {
+  return new TreeNode(...arguments);
 }

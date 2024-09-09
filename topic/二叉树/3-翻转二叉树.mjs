@@ -1,14 +1,14 @@
 import test from 'node:test';
 import { deepStrictEqual } from 'node:assert/strict';
-import { createBinaryTreeNode as h } from '../../struct/BinaryTreeNode.mjs';
+import { createTreeNode as h, TreeNode } from '../../struct/BinaryTreeNode.mjs';
 
 /**
  * 给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
  */
 
 /**
- * @param { BinaryTreeNode } root
- * @return { BinaryTreeNode }
+ * @param { TreeNode } root
+ * @return { TreeNode }
  */
 function invertTree(root) {
   const nodeArray = [root];

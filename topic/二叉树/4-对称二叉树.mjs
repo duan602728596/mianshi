@@ -1,13 +1,13 @@
 import test from 'node:test';
 import { deepStrictEqual } from 'node:assert/strict';
-import { createBinaryTreeNode as h } from '../../struct/BinaryTreeNode.mjs';
+import { createTreeNode as h } from '../../struct/BinaryTreeNode.mjs';
 
 /**
  * 给你一个二叉树的根节点 root ， 检查它是否轴对称。
  */
 
 /**
- * @param { BinaryTreeNode } root
+ * @param { TreeNode } root
  * @return { boolean }
  */
 function isSymmetric(root) {

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import { deepStrictEqual } from 'node:assert/strict';
-import { createBinaryTreeNode as h } from '../../struct/BinaryTreeNode.mjs';
+import { createTreeNode as h } from '../../struct/BinaryTreeNode.mjs';
 
 /**
  * 给你两棵二叉树的根节点 p 和 q ，编写一个函数来检验这两棵树是否相同。
@@ -8,8 +8,8 @@ import { createBinaryTreeNode as h } from '../../struct/BinaryTreeNode.mjs';
  */
 
 /**
- * @param { BinaryTreeNode } p
- * @param { BinaryTreeNode } q
+ * @param { TreeNode } p
+ * @param { TreeNode } q
  * @return { boolean }
  */
 function isSameTree(p, q) {
