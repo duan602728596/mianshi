@@ -8,7 +8,7 @@ import { createTreeNode as h } from '../../struct/BinaryTreeNode.mjs';
 
 /**
  * @param { TreeNode } root
- * @return { Array<number> }
+ * @return { Array<number[]> }
  */
 function levelOrder(root) {
   if (!root) return [];
@@ -25,8 +25,9 @@ function levelOrder(root) {
     result[index].push(item.val);
 
     // 遍历子树且删除当前节点
-    item.left && childrenCache.push(item.left);
-    item.right && childrenCache.push(item.right);
+    item.right && childrenCache.unshift(item.right);
+    item.left && childrenCache.unshift(item.left);
+
     cache.shift();
 
     if (cache.length === 0) {

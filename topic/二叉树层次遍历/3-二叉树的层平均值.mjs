@@ -28,8 +28,8 @@ function averageOfLevels(root) {
     allValue += item.val;
 
     // 遍历子树且删除当前节点
-    item.left && childrenCache.push(item.left);
-    item.right && childrenCache.push(item.right);
+    item.right && childrenCache.unshift(item.right);
+    item.left && childrenCache.unshift(item.left);
     cache.shift();
 
     if (cache.length === 0) {
