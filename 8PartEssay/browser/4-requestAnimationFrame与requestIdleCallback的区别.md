@@ -1,0 +1,7 @@
+# requestAnimationFrame与requestIdleCallback的区别
+
+requestAnimationFrame和requestIdleCallback都是浏览器提供的用于优化动画性能的API，但是它们之间有一些区别。
+
+* requestAnimationFrame是一个用于优化动画性能的API，它会在浏览器下一次重绘之前执行回调函数。requestAnimationFrame的回调函数会在每一帧的开始时执行，这样可以确保动画的流畅性。
+
+* requestIdleCallback是一个用于优化非关键性任务的API，它会在浏览器空闲时执行回调函数。requestIdleCallback的回调函数会在浏览器空闲时执行，这样可以确保非关键性任务不会影响用户体验。
