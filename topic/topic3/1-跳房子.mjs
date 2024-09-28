@@ -1,6 +1,3 @@
-import test from 'node:test';
-import { deepStrictEqual } from 'node:assert/strict';
-
 /**
  * 跳房子，规定总共有n个格子，每次可以选择跳1个格子、2个格子或3个格子，但是下一步不能和当前选择的跳跃距离一样，
  * 计算总共有多少种跳房子方案。
