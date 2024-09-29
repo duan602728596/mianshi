@@ -7,7 +7,7 @@
     "postinstall": "husky install"
   },
   "dependencies": {
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.2"
   },
   "devDependencies": {
