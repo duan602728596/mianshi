@@ -12,39 +12,21 @@ import { deepStrictEqual } from 'node:assert/strict';
  * @return { number }
  */
 function strStr(haystack, needle) {
-  const cache = [],
-    needleLength = needle.length;
-  let index = -1;
+  const needleLength = needle.length;
+  let resultIndex = -1;
 
-  for (let i = 0; i < haystack.length; i++) {
-    cache.unshift(haystack[i]);
+  for (let i = 0; i < haystack.length - needleLength + 1; i++) {
+    if (haystack[i] === needle[0]) {
+      const str = haystack.substring(i, i + needleLength);
 
-    if (haystack[i] === needle) {
-      index = i;
-      break;
-    }
-
-    let j = 1;
-
-    while (j < cache.length) {
-      cache[j] += haystack[i];
-
-      if (cache[j] === needle) {
-        index = i - j;
+      if (str === needle) {
+        resultIndex = i;
         break;
       }
-
-      if (cache[j].length === needleLength) {
-        cache.pop();
-      } else {
-        j++;
-      }
     }
-
-    if (index !== -1) break;
   }
 
-  return index;
+  return resultIndex;
 }
 
 test('Case 1', function() {
